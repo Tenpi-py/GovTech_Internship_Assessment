@@ -1,3 +1,6 @@
-﻿127.0.0.1 - - [09/Sep/2025:12:00:00 +0000] ""GET / HTTP/1.1"" 200 512 ""-"" ""curl/8.0.1""
-198.51.100.23 - - [09/Sep/2025:12:01:02 +0000] ""GET /about HTTP/1.1"" 200 2048 ""https://example.org"" ""Mozilla/5.0 (Windows NT 10.0; Win32; x64; rv:129.0) Gecko/20100101 Firefox/129.0""
+127.0.0.1 - - [09/Sep/2025:12:00:00 +0000] "GET / HTTP/1.1" 200 512 "-" "curl/8.0.1"
+198.51.100.23 - - [09/Sep/2025:12:01:02 +0000] "GET /about HTTP/1.1" 200 2048 "https://example.org" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:129.0) Gecko/20100101 Firefox/129.0"
+203.0.113.9 - - [09/Sep/2025:12:03:27 +0000] "GET /contact HTTP/1.1" 404 321 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Safari/605.1.15"
+192.0.2.44 - - [09/Sep/2025:12:05:15 +0000] "POST /login HTTP/1.1" 302 0 "https://example.org/login" "Mozilla/5.0 (Linux; Android 13; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36"
+198.51.100.55 - - [09/Sep/2025:12:08:59 +0000] "GET /robots.txt HTTP/1.1" 200 68 "-" "Googlebot/2.1 (+http://www.google.com/bot.html)"
 bad line that will not parse
