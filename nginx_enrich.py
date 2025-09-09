@@ -1,6 +1,5 @@
 ﻿import json, re, sys
 from typing import Optional, Dict
-# Nginx "combined" format
 LINE_RE = re.compile(
     r'^(?P<remote_addr>\S+)\s+-\s+(?P<remote_user>\S+)\s+\[(?P<time_local>[^\]]+)\]\s+'
     r'\"(?P<request>[^\"]*)\"\s+(?P<status>\d{3})\s+(?P<body_bytes_sent>\d+|-)'
@@ -11,7 +10,9 @@ def parse_line(line: str) -> Optional[Dict]:
     if not m:
         return None
     d = m.groupdict()
-    # (no type conversions yet)
+    # type conversions
+    d["status"] = int(d["status"])
+    d["body_bytes_sent"] = None if d["body_bytes_sent"] == "-" else int(d["body_bytes_sent"])
     return d
 def main():
     if len(sys.argv) < 3:
