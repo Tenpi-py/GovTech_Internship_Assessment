@@ -42,6 +42,12 @@ def parse_line(line: str) -> Optional[Dict]:
     d = m.groupdict()
     d["status"] = int(d["status"])
     d["body_bytes_sent"] = None if d["body_bytes_sent"] == "-" else int(d["body_bytes_sent"])
+    # keep raw nginx timestamp
+    d["time_local"] = d["time_local"]
+    ua = d.get("http_user_agent", "") or ""
+    d["ua_browser"] = detect_browser(ua)
+    d["ua_os"] = detect_os(ua)
+    d["ua_device"] = detect_device(ua)
     return d
 def main():
     if len(sys.argv) < 3:
