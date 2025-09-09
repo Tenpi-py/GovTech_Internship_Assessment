@@ -5,12 +5,41 @@ LINE_RE = re.compile(
     r'\"(?P<request>[^\"]*)\"\s+(?P<status>\d{3})\s+(?P<body_bytes_sent>\d+|-)'
     r'\s+\"(?P<http_referer>[^\"]*)\"\s+\"(?P<http_user_agent>[^\"]*)\"'
 )
+def detect_browser(ua: str) -> Optional[str]:
+    u = ua.lower()
+    if "edg/" in u or "edg " in u or "edge" in u: return "Microsoft Edge"
+    if "opera" in u or "opr/" in u: return "Opera"
+    if "chrome" in u and "chromium" not in u and "edg" not in u and "opr/" not in u: return "Chrome"
+    if "safari" in u and "chrome" not in u and "chromium" not in u: return "Safari"
+    if "firefox" in u: return "Firefox"
+    if "chromium" in u: return "Chromium"
+    if "msie" in u or "trident/" in u: return "Internet Explorer"
+    return None
+def detect_os(ua: str) -> Optional[str]:
+    u = ua.lower()
+    if "windows nt 10" in u: return "Windows 10/11"
+    if "windows nt 6.3" in u: return "Windows 8.1"
+    if "windows nt 6.2" in u: return "Windows 8"
+    if "windows nt 6.1" in u: return "Windows 7"
+    if "windows" in u: return "Windows (other)"
+    if "android" in u: return "Android"
+    if any(x in u for x in ["iphone","ipad","ipod","cpu os"]): return "iOS/iPadOS"
+    if "mac os x" in u or "macintosh" in u: return "macOS"
+    if "linux" in u and "android" not in u: return "Linux"
+    if "cros" in u: return "ChromeOS"
+    return None
+def detect_device(ua: str) -> str:
+    u = ua.lower()
+    if any(x in u for x in ["bot","crawl","spider","slurp","curl/","wget/","python-requests","requests/"]): return "Bot"
+    if "mobile" in u and "ipad" not in u: return "Mobile"
+    if any(x in u for x in ["tablet","ipad","nexus 7","sm-t"]): return "Tablet"
+    if any(x in u for x in ["smart-tv"," smarttv","hbbtv","tv "]): return "Smart TV"
+    return "Desktop"
 def parse_line(line: str) -> Optional[Dict]:
     m = LINE_RE.match(line.strip())
     if not m:
         return None
     d = m.groupdict()
-    # type conversions
     d["status"] = int(d["status"])
     d["body_bytes_sent"] = None if d["body_bytes_sent"] == "-" else int(d["body_bytes_sent"])
     return d
